@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
       - name: sentiment-container
-        image: atharvaramawat/sentiment-analysis:latest  
+        image: atharvaramawat/sentiment-frontend:latest
         ports:
         - containerPort: 5000
