@@ -1,27 +1,71 @@
-# 🤖 Sentiment Analysis Microservices with CI/CD Pipeline
+# 🎭 AI Sentiment Analysis on Kubernetes (Argo CD)
 
-## 🚀 Project Overview
-This project demonstrates a production-grade DevOps workflow for a microservices application. The application is a "Sentiment Analyzer" that uses Natural Language Processing (TextBlob) to determine if a user's input is Positive, Negative, or Neutral.
+A full-stack AI application that analyzes the sentiment of user text (Positive, Negative, Neutral). This project demonstrates a complete **GitOps** workflow using **Argo CD** for continuous delivery to a Kubernetes cluster.
 
-The primary goal of this project is to showcase a **complete CI/CD pipeline** where code changes are automatically built, tested, and deployed to a Kubernetes cluster without manual intervention.
+## 🚀 Live Demo
+You can access the live application here:
+👉 **[http://13.232.227.254:30007](http://13.232.227.254:30007)**
+
+---
+
+## 📸 Screenshots
+
+### 1. The Application UI
+![App UI](./images/app_ui.png)
+*Streamlit Frontend communicating with FastAPI Backend.*
+
+### 2. Argo CD Deployment Graph
+![Argo CD Graph](./images/argocd_graph.png)
+*Visualizing the microservices architecture (Frontend & Backend) in Argo CD.*
+
+---
 
 ## 🛠️ Tech Stack
-* **Application:** Python (FastAPI for Backend, Streamlit for Frontend)
-* **Containerization:** Docker & Docker Compose
-* **Continuous Integration (CI):** Jenkins (running on AWS EC2)
-* **Continuous Delivery (CD):** ArgoCD (GitOps approach)
-* **Infrastructure:** AWS EC2, Kubernetes
-* **Version Control:** Git & GitHub
+
+* **Frontend:** [Streamlit](https://streamlit.io/) (Python) - Port `8501`
+* **Backend:** [FastAPI](https://fastapi.tiangolo.com/) (Python) - Port `8000`
+* **Containerization:** Docker
+* **Orchestration:** Kubernetes (K3s/K8s)
+* **CD Pipeline:** Argo CD (GitOps)
+* **Cloud Infrastructure:** AWS EC2
+
+---
 
 ## 🏗️ Architecture
-The project follows a microservices architecture:
-1.  **Frontend:** A Streamlit container that accepts user input.
-2.  **Backend:** A FastAPI container that processes text using the TextBlob NLP library.
-3.  **Communication:** The services communicate via REST APIs within a private Docker network (or Kubernetes Cluster IP).
 
-## 🔄 The DevOps Pipeline
-1.  **Commit:** Code is pushed to the GitHub repository.
-2.  **Build (CI):** Jenkins detects the change, builds the Docker images for Frontend and Backend.
-3.  **Push:** Jenkins pushes the new images to Docker Hub with a version tag.
-4.  **Update Manifest:** Jenkins updates the Kubernetes deployment YAML files with the new image tag.
-5.  **Deploy (CD):** ArgoCD detects the change in the manifest and automatically syncs the Kubernetes cluster to the new version (Rolling Update).
+The application follows a microservices architecture deployed on Kubernetes:
+
+1.  **Frontend Service:** Exposed via NodePort `30007`. It accepts user input and sends a POST request to the backend.
+2.  **Backend Service:** An internal service running FastAPI. It processes the text using a pre-trained ML model and returns the sentiment score.
+3.  **Argo CD:** Monitors this repository. Any change to the `deployment.yaml` files is automatically synced and deployed to the cluster.
+
+---
+
+## ⚙️ Installation & Deployment
+
+To deploy this on your own Kubernetes cluster:
+
+1.  **Clone the repository:**
+    ```bash
+    git clone [https://github.com/Atharva-Ramawat/sentiment-analysis-jenkins-argocd.git](https://github.com/Atharva-Ramawat/sentiment-analysis-jenkins-argocd.git)
+    cd sentiment-analysis-jenkins-argocd
+    ```
+
+2.  **Apply the Kubernetes Manifests:**
+    ```bash
+    # Deploy Backend
+    kubectl apply -f backend-deployment.yaml
+    kubectl apply -f backend-service.yaml
+
+    # Deploy Frontend
+    kubectl apply -f deployment.yaml
+    kubectl apply -f service.yaml
+    ```
+
+3.  **Access the App:**
+    The frontend will be available at `http://<YOUR-NODE-IP>:30007`.
+
+---
+
+## 🤝 Contributors
+* **Atharva Ramawat** - *DevOps & Full Stack Implementation*
