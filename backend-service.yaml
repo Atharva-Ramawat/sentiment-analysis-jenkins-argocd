@@ -7,6 +7,6 @@ spec:
   selector:
     app: sentiment-backend
   ports:
-    - port: 8000        
-      targetPort: 5000 
+    - port: 8000
+      targetPort: 8000  
       nodePort: 30008
