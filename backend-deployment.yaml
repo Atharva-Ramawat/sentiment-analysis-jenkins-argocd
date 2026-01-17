@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
       - name: sentiment-backend
-        image: atharvaramawat/sentiment-backend:latest 
+        image: atharvaramawat/sentiment-backend:latest
         ports:
-        - containerPort: 5000  
+        - containerPort: 5000  # <--- CHANGED: Back to 5000
