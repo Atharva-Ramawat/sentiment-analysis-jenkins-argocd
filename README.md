@@ -3,8 +3,8 @@
 A full-stack AI application that analyzes the sentiment of user text (Positive, Negative, Neutral). This project demonstrates a complete **DevSecOps** workflow using **Jenkins** for CI, **Argo CD** for GitOps CD, and **Kubernetes** for orchestration.
 
 ## 🚀 Live Demo
-You can access the live application here:
-👉 **[http://13.232.227.254:30007](http://13.232.227.254:30007)**
+You can access the live application on kubernetes cluster here:
+👉 **[live server](http://13.232.227.254:30007)**
 
 ---
 
@@ -75,3 +75,5 @@ To deploy this on your own Kubernetes cluster:
 
 ## 🤝 Contributors
 * **Atharva Ramawat** - *DevOps & Full Stack Implementation*
+
+
