@@ -5,7 +5,7 @@ import os
 # We use an environment variable so Kubernetes can inject the address later
 BACKEND_URL = os.getenv("BACKEND_URL", "http://backend:8000")
 
-st.title("🤖 AI Sentiment Analyzer")
+st.title("🤖 AI Sentiment Analyzer V2")
 st.write("Enter a sentence to see if it's Positive, Negative, or Neutral.")
 
 user_input = st.text_area("Type here...")
