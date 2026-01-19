@@ -4,7 +4,7 @@ A full-stack AI application that analyzes the sentiment of user text (Positive, 
 
 ## 🚀 Live Demo
 You can access the live application on kubernetes cluster here:
-👉 **[http://13.232.227.254:30007](http://13.232.227.254:30007)**
+👉 **[live server](http://13.232.227.254:30007)**
 
 ---
 
@@ -75,4 +75,5 @@ To deploy this on your own Kubernetes cluster:
 
 ## 🤝 Contributors
 * **Atharva Ramawat** - *DevOps & Full Stack Implementation*
+
 
