@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
       - name: sentiment-container
-        image: atharvaramawat/sentiment-frontend:v38
+        image: atharvaramawat/sentiment-frontend:v39
         ports:
         - containerPort: 8501
