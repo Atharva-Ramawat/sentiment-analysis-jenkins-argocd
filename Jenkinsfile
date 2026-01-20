@@ -15,11 +15,10 @@ pipeline {
 
     stages {
         stage('Build Backend') {
-            // --- LOOP PROTECTION START ---
+            // --- LOOP PROTECTION (Fixed Syntax) ---
             when {
-                not { changelog '.*\[skip ci\].*' }
+                not { changelog '.*skip ci.*' }
             }
-            // --- LOOP PROTECTION END ---
             steps {
                 script {
                     echo "Building Backend Image: ${IMAGE_TAG}..."
@@ -33,7 +32,7 @@ pipeline {
         stage('Build Frontend') {
             // --- LOOP PROTECTION ---
             when {
-                not { changelog '.*\[skip ci\].*' }
+                not { changelog '.*skip ci.*' }
             }
             steps {
                 script {
@@ -48,7 +47,7 @@ pipeline {
         stage('Login & Push') {
             // --- LOOP PROTECTION ---
             when {
-                not { changelog '.*\[skip ci\].*' }
+                not { changelog '.*skip ci.*' }
             }
             steps {
                 script {
@@ -64,7 +63,7 @@ pipeline {
         stage('Update Manifests') {
             // --- LOOP PROTECTION ---
             when {
-                not { changelog '.*\[skip ci\].*' }
+                not { changelog '.*skip ci.*' }
             }
             steps {
                 script {
@@ -79,7 +78,6 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: "${GIT_CREDENTIALS_ID}", passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
                         sh "git add ."
                         sh "git commit -m 'Update images to ${IMAGE_TAG} [skip ci]'"
-                        // Your corrected URL:
                         sh "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Atharva-Ramawat/sentiment-analysis-jenkins-argocd.git HEAD:main"
                     }
                 }
@@ -89,7 +87,7 @@ pipeline {
         stage('Cleanup') {
             // --- LOOP PROTECTION ---
             when {
-                not { changelog '.*\[skip ci\].*' }
+                not { changelog '.*skip ci.*' }
             }
             steps {
                 script {
