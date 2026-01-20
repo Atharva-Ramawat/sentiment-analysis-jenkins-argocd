@@ -61,9 +61,11 @@ pipeline {
                         sh "git add ."
                         sh "git commit -m 'Update images to ${IMAGE_TAG} [skip ci]'"
                         sh "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Atharva-Ramawat/sentiment-analysis-jenkins-argocd.git HEAD:main"
+                    }
                 }
             }
         }
+
         stage('Cleanup') {
             steps {
                 script {
