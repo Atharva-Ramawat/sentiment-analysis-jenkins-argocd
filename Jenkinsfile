@@ -4,7 +4,10 @@ pipeline {
     environment {
         DOCKERHUB_CREDENTIALS = credentials('docker-hub-credentials')
         DOCKER_USER = "atharvaramawat" 
-        // Image names
+        
+        IMAGE_TAG = "v${BUILD_NUMBER}" 
+        GIT_CREDENTIALS_ID = 'github-pat-token'
+
         BACKEND_IMAGE = "${DOCKER_USER}/sentiment-backend"
         FRONTEND_IMAGE = "${DOCKER_USER}/sentiment-frontend"
     }
@@ -13,9 +16,9 @@ pipeline {
         stage('Build Backend') {
             steps {
                 script {
-                    echo 'Building Backend Image...'
+                    echo "Building Backend Image: ${IMAGE_TAG}..."
                     dir('backend') {
-                        sh "docker build -t $BACKEND_IMAGE:latest ."
+                        sh "docker build -t $BACKEND_IMAGE:${IMAGE_TAG} ."
                     }
                 }
             }
@@ -24,9 +27,9 @@ pipeline {
         stage('Build Frontend') {
             steps {
                 script {
-                    echo 'Building Frontend Image...'
+                    echo "Building Frontend Image: ${IMAGE_TAG}..."
                     dir('frontend') {
-                        sh "docker build -t $FRONTEND_IMAGE:latest ."
+                        sh "docker build -t $FRONTEND_IMAGE:${IMAGE_TAG} ."
                     }
                 }
             }
@@ -36,21 +39,38 @@ pipeline {
             steps {
                 script {
                     echo 'Pushing Docker Images...'
-                    // This uses the ID you just created to log in securely
                     sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
                     
-                    sh "docker push $BACKEND_IMAGE:latest"
-                    sh "docker push $FRONTEND_IMAGE:latest"
+                    sh "docker push $BACKEND_IMAGE:${IMAGE_TAG}"
+                    sh "docker push $FRONTEND_IMAGE:${IMAGE_TAG}"
                 }
             }
         }
 
+        stage('Update Manifests') {
+            steps {
+                script {
+                    echo "Updating Kubernetes Deployment..."
+                    sh 'git config user.email "jenkins@bot.com"'
+                    sh 'git config user.name "Jenkins Bot"'
+
+                    sh "sed -i 's|image: ${FRONTEND_IMAGE}:.*|image: ${FRONTEND_IMAGE}:${IMAGE_TAG}|' k8s/deployment.yaml"
+                    sh "sed -i 's|image: ${BACKEND_IMAGE}:.*|image: ${BACKEND_IMAGE}:${IMAGE_TAG}|' k8s/deployment.yaml"
+
+                    withCredentials([usernamePassword(credentialsId: "${GIT_CREDENTIALS_ID}", passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+                        sh "git add ."
+                        sh "git commit -m 'Update images to ${IMAGE_TAG} [skip ci]'"
+                        sh "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Atharva-Ramawat/sentiment-frontend.git HEAD:main"
+                    }
+                }
+            }
+        }
         stage('Cleanup') {
             steps {
                 script {
-                    echo 'Removing Local Images to save space...'
-                    sh "docker rmi $BACKEND_IMAGE:latest"
-                    sh "docker rmi $FRONTEND_IMAGE:latest"
+                    echo 'Removing Local Images...'
+                    sh "docker rmi $BACKEND_IMAGE:${IMAGE_TAG}"
+                    sh "docker rmi $FRONTEND_IMAGE:${IMAGE_TAG}"
                 }
             }
         }
