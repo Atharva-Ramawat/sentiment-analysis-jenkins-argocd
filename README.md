@@ -49,7 +49,7 @@ To deploy this on your own Kubernetes cluster:
 
 1.  **Clone the repository:**
     ```bash
-    git clone [https://github.com/Atharva-Ramawat/sentiment-analysis-jenkins-argocd.git](https://github.com/Atharva-Ramawat/sentiment-analysis-jenkins-argocd.git)
+    git clone https://github.com/Atharva-Ramawat/sentiment-analysis-jenkins-argocd.git
     cd sentiment-analysis-jenkins-argocd
     ```
 
@@ -67,6 +67,7 @@ To deploy this on your own Kubernetes cluster:
 
 ## 🤝 Contributors
 * **Atharva Ramawat** - *DevOps & Full Stack Implementation*
+
 
 
 
