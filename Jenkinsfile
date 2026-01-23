@@ -5,7 +5,6 @@ pipeline {
         DOCKERHUB_CREDENTIALS = credentials('docker-hub-credentials')
         DOCKER_USER = "atharvaramawat" 
         
-        // Define the Tag and Git Credentials
         IMAGE_TAG = "v${BUILD_NUMBER}" 
         GIT_CREDENTIALS_ID = 'github-pat-token'
 
@@ -15,7 +14,6 @@ pipeline {
 
     stages {
         stage('Build Backend') {
-            // --- LOOP PROTECTION (Fixed Syntax) ---
             when {
                 not { changelog '.*skip ci.*' }
             }
@@ -30,7 +28,6 @@ pipeline {
         }
 
         stage('Build Frontend') {
-            // --- LOOP PROTECTION ---
             when {
                 not { changelog '.*skip ci.*' }
             }
@@ -45,7 +42,6 @@ pipeline {
         }
 
         stage('Login & Push') {
-            // --- LOOP PROTECTION ---
             when {
                 not { changelog '.*skip ci.*' }
             }
@@ -61,7 +57,6 @@ pipeline {
         }
 
         stage('Update Manifests') {
-            // --- LOOP PROTECTION ---
             when {
                 not { changelog '.*skip ci.*' }
             }
@@ -70,8 +65,6 @@ pipeline {
                     echo "Updating Kubernetes Deployment..."
                     sh 'git config user.email "jenkins@bot.com"'
                     sh 'git config user.name "Jenkins Bot"'
-
-                    // Updates the deployment file with the new tag
                     sh "sed -i 's|image: ${FRONTEND_IMAGE}:.*|image: ${FRONTEND_IMAGE}:${IMAGE_TAG}|' deployment.yaml"
                     sh "sed -i 's|image: ${BACKEND_IMAGE}:.*|image: ${BACKEND_IMAGE}:${IMAGE_TAG}|' deployment.yaml"
 
@@ -85,7 +78,6 @@ pipeline {
         }
 
         stage('Cleanup') {
-            // --- LOOP PROTECTION ---
             when {
                 not { changelog '.*skip ci.*' }
             }
