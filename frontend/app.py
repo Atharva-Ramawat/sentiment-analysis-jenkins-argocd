@@ -3,7 +3,7 @@ import requests
 import os
 
 BACKEND_URL = os.getenv("BACKEND_URL", "http://backend:8000")
-#Jenkins and argocd
+
 st.title("🤖 AI Sentiment Analyzer")
 st.write("Enter a sentence to see if it's Positive, Negative, or Neutral.")
 
