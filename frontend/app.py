@@ -2,7 +2,6 @@ import streamlit as st
 import requests
 import os
 
-# We use an environment variable so Kubernetes can inject the address later
 BACKEND_URL = os.getenv("BACKEND_URL", "http://backend:8000")
 
 st.title("🤖 AI Sentiment Analyzer V2 testing  ")
